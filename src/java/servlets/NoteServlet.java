@@ -27,12 +27,18 @@ public class NoteServlet extends HttpServlet {
         // If the edit parameter is null display the view page
         if (edit != null) {
             Note editNote = new Note(filePath);
+            
+            // Replace any html line breaks with regular line breaks
+            String formattedContents = editNote.getNoteContents().replaceAll("<br>", "\r\n");
+            editNote.setNoteContents(formattedContents);
+            
             request.setAttribute("note", editNote);
             
             getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp").
                     forward(request, response);
         } else {
             Note viewNote = new Note(filePath);
+            
             request.setAttribute("note", viewNote);
             
             getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp").
@@ -49,14 +55,16 @@ public class NoteServlet extends HttpServlet {
         
         // Retrieve the note title
         String noteTitle = request.getParameter("noteTitle");
-        // Retrieve the notes contents
+        // Retrieve the notes contents, replace all line breaks to html line breaks
         String noteContents = request.getParameter("noteContents");
-        
+        noteContents = noteContents.replaceAll("\r\n", "<br>");
+           
         // Open note
         Note editNote = new Note(filePath);
         
-        // Change note.txt title and contents
+        // Change note.txt title
         editNote.setNoteTitle(noteTitle);
+        // Change note.txt contents
         editNote.setNoteContents(noteContents);
         
         // Send editied note back to view note

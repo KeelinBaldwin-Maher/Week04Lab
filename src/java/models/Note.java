@@ -18,10 +18,10 @@ public class Note implements Serializable {
             FileReader noteFile = new FileReader(new File(filePath));
             BufferedReader noteReader = new BufferedReader(noteFile);
             
-            // Read the note.txt file
+            // Read title and contents from the note.txt file
             noteTitle = noteReader.readLine();
             noteContents = noteReader.readLine();
-            
+    
             noteReader.close();
             
         } catch (FileNotFoundException noFile) {
@@ -54,8 +54,7 @@ public class Note implements Serializable {
             PrintWriter noteWriter = new PrintWriter(new File(filePath));
             
             // Write title and contents to note.txt
-            noteWriter.print(this.noteTitle);
-            noteWriter.println();
+            noteWriter.println(this.noteTitle);        
             noteWriter.print(this.noteContents);
             
             // Save changes and close noteWriter
